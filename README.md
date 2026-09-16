@@ -1,8 +1,8 @@
-
 # EXPERIMENT--03-SIMULATION-OF-PUSHBUTTON-AND-LED INTERFACE WITH ARM CONTROLLER AND PROTEUS 
-# NAME : SIVAKUMAR R
-# REG NO : 212223230209
-## Aim: To Interface a Digital output (LED) and Digital input (Pushbutton) to ARM development board , and simulate it in Proteus 
+## Aim: 
+
+To Interface a Digital output (LED) and Digital input (Pushbutton) to ARM development board , and simulate it in Proteus 
+
 ## Components required: STM32 CUBE IDE, Proteus 8 simulator .
 ## Theory 
 The full form of an ARM is an advanced reduced instruction set computer (RISC) machine, and it is a 32-bit processor architecture expanded by ARM holdings. The applications of an ARM processor include several microcontrollers as well as processors. The architecture of an ARM processor was licensed by many corporations for designing ARM processor-based SoC products and CPUs. This allows the corporations to manufacture their products using ARM architecture. Likewise, all main semiconductor companies will make ARM-based SOCs such as Samsung, Atmel, TI etc.
@@ -75,38 +75,44 @@ We are now at the last part of step by step guide on how to simulate STM32 proje
 
 ## STM 32 CUBE PROGRAM :
 
-```
+```c
 
 #include "main.h"
-#include "stdbool.h"
+#include <stdbool.h>
+void push_button();
+bool pb;
 
-bool PUSHBUTT;
 
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 
 int main(void)
 {
+
   HAL_Init();
+
   SystemClock_Config();
+
+
   MX_GPIO_Init();
 
   while (1)
   {
-    PUSHBUTT = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
-    if (PUSHBUTT == 0)
-    {
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-      HAL_Delay(2000);
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-      HAL_Delay(2000);
-    }
-    else
-    {
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-      HAL_Delay(2000);
-    }
+
+  	push_button();
+
   }
+
+}
+void push_button()
+{
+	  pb=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
+	  if(pb==0){
+		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+	  }
+	  else{
+		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+	  }
 }
 
 void SystemClock_Config(void)
@@ -117,6 +123,7 @@ void SystemClock_Config(void)
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
 
+
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -125,6 +132,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -157,7 +165,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
+
 
 void Error_Handler(void)
 {
@@ -168,25 +178,27 @@ void Error_Handler(void)
 }
 
 #ifdef  USE_FULL_ASSERT
+
 void assert_failed(uint8_t *file, uint32_t line)
 {
-}
-#endif
 
+}
+#endif 
 
 ```
 
 
 ## Output screen shots of proteus  :
 
-<img width="741" height="840" alt="image" src="https://github.com/user-attachments/assets/79351204-3765-4895-8ff4-07b0f7e57403" />
+<img width="1920" height="1011" alt="Screenshot (56)" src="https://github.com/user-attachments/assets/ab05be45-d081-4099-ae06-6322177dfe28" />
 
-<img width="800" height="881" alt="image" src="https://github.com/user-attachments/assets/4d41787f-b972-43e2-9f94-7411c9cb79da" />
+
+
 
 ## Proteus layout(Add pdf screen shot of circuit here)
  
- <img width="679" height="708" alt="image" src="https://github.com/user-attachments/assets/3ccc1d09-03a1-40ae-a9c7-1cf96ca030c7" />
-
+ 
+<img width="1920" height="1021" alt="Screenshot (57)" src="https://github.com/user-attachments/assets/b617eac2-6ca9-4136-a7df-c7cd95d40d9e" />
  
  
 ## Result :
